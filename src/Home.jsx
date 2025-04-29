@@ -3,7 +3,7 @@ import React from 'react'
 import { launchImageLibrary } from 'react-native-image-picker';
 
 
-const Home = (navigation) => {
+const Home = ({navigation}) => {
 
 
   const pickimages = async () => {
@@ -23,8 +23,11 @@ const Home = (navigation) => {
         type: item.type || 'image/jpeg',
         name: item.fileName || `image_${Date.now()}`,
     }));
+    console.log('Selected Images: ', newimages);
+    navigation.navigate('DisplayReference', {images: newimages})
+
     }
-    navigation.navigate('DisplayReference', {images: newimages})}
+    }
     catch(error){
       console.log('Error: ', error);
     }

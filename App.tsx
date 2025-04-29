@@ -11,8 +11,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Stack.Screen
-          name="DisplayReference" component={DisplayReference} options={{ headerShown: false }} />
+        <Stack.Screen name="DisplayReference" component={DisplayReference} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
