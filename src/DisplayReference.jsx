@@ -1,6 +1,7 @@
 import { FlatList, Image, StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native'
 import React ,{useState} from 'react'
 import { launchImageLibrary } from 'react-native-image-picker';
+import color from '../android/config/color';
 
 
 const DisplayReference = ({route, navigation}) => {
