@@ -26,7 +26,7 @@ const uploadFiles = async() => {
     }); 
   
     console.log('Server response:', response.data);
-
+navigation.navigate('UploadReference', { images: response.data.images });
    
   }
   catch(error){

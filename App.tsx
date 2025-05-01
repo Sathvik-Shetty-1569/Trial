@@ -4,6 +4,7 @@ import Home from './src/Home.jsx'
 import DisplayReference from './src/DisplayReference.jsx'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
+import UploadReference from './src/UploadReference.jsx'
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="DisplayReference" component={DisplayReference} options={{ headerShown: false }} />
+        <Stack.Screen name="UploadReference" component={UploadReference} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
