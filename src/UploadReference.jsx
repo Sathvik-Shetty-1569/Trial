@@ -1,10 +1,28 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 
-const UploadReference = () => {
-    const [isexpand, setIsexpand] = useState(false);
-    const [marks, setMarks] = useState('');
-    const base64Image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==';
+const UploadReference = ({route}) => {
+    const { results } = route.params;
+
+    const [marks, setMarks] = useState({});
+  const [expandedItems, setExpandedItems] = useState({});
+  const [modelName, setModelName] = useState(''); // State for model name input
+
+  const handleMarkChange = (resultIndex, pairIndex, value) => {
+    setMarks(prev => ({
+      ...prev,
+      [`${resultIndex}-${pairIndex}`]: value
+    }));
+  };
+
+
+
+  const toggleExpand = (resultIndex, pairIndex) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [`${resultIndex}-${pairIndex}`]: !prev[`${resultIndex}-${pairIndex}`]
+    }));
+  };
 
   return (
    <View style={{padding:20}}>
@@ -12,14 +30,21 @@ const UploadReference = () => {
         <View style={styles.headercontainer}>
     <Text style={styles.heading}>Detected Reference</Text>
     </View>
-    <View style = {styles.card}>
+    {results.map((result, resultIndex) => (
+        <View key={resultIndex}>
+          {result.cropped_pairs.map((base64Image, pairIndex) => (
+
+    <View key = {pairIndex} style = {styles.card}>
+
         <TouchableOpacity 
         style={styles.button}
-        onPress={() => setIsexpand(!isexpand)}>
-            <Text style={{fontSize: 15, fontWeight: 'bold'}}>Question</Text>
-            <Text style={{fontSize: 15, fontWeight: 'bold'}}>{isexpand ? '▲' : '▼'}</Text>
+        onPress={() => toggleExpand(resultIndex, pairIndex)}>
+<Text style={{fontSize: 15, fontWeight: 'bold'}}>Question {resultIndex + 1}-{pairIndex + 1}</Text>
+            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+            {expandedItems[`${resultIndex}-${pairIndex}`] ? '▲' : '▼'}
+            </Text>
         </TouchableOpacity>
-        {isexpand &&(
+        {expandedItems[`${resultIndex}-${pairIndex}`] && (
             <View style={{flexDirection:'column'}}>
                 <View style={{flexDirection:'row' ,justifyContent:'space-between'}}>
                 <Text style={{fontSize: 15, fontWeight: 'bold', padding:10}}>Marks :</Text>
@@ -28,10 +53,12 @@ const UploadReference = () => {
                 keyboardType='numeric'
                 placeholder='0'
                 placeholderTextColor={'#000'}
-                value={marks}
+                value={marks[`${resultIndex}-${pairIndex}`] || ''}
                 maxLength={2}
-                onChangeText={setMarks}></TextInput>
-                </View>
+                onChangeText={(text) =>
+                    handleMarkChange(resultIndex, pairIndex, text)
+                  }></TextInput>
+                    </View>
                 <View style={{marginRight:10}}>
                 <Image
                 source={{ uri: base64Image }}
@@ -39,10 +66,17 @@ const UploadReference = () => {
                 resizeMode="contain">
                 </Image>
                 </View>
+        
             </View>
         )}
-        
+    
     </View>
+  ))}
+    </View>
+))}
+
+
+
     </ScrollView>
    </View>
   )
