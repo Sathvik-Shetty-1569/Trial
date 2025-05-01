@@ -1,5 +1,7 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+import { db } from '../firebaseConfig';
+import { addDoc, collection, getDoc, serverTimestamp } from 'firebase/firestore';
 
 const UploadReference = ({route}) => {
     const { results } = route.params;
@@ -14,6 +16,18 @@ const UploadReference = ({route}) => {
       [`${resultIndex}-${pairIndex}`]: value
     }));
   };
+
+  const handleSave = async () => {
+      try{
+        await addDoc(collection(db, 'models'), {
+          data : results,
+          timestamp: serverTimestamp()
+        })
+      }
+      catch (error) {
+          
+      }
+  }
 
 
 
